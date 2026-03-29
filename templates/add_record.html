@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Medical Record</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+    .container { display: flex; justify-content: center; padding: 40px 16px; }
+
+    .card {
+      background: white;
+      padding: 36px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 520px;
+    }
+
+    h2 { color: #2e7d32; margin-bottom: 24px; font-size: 20px; }
+
+    label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; }
+
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      outline: none;
+      resize: vertical;
+      min-height: 80px;
+    }
+    textarea:focus { border-color: #2e7d32; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #1b5e20; }
+
+    .back { display: block; text-align: center; margin-top: 16px; font-size: 13px; color: #2e7d32; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>📋 Add Medical Record</h2>
+
+      <form method="POST">
+        <label>Diagnosis</label>
+        <textarea name="diagnosis" placeholder="Enter diagnosis details"></textarea>
+
+        <label>Medications</label>
+        <textarea name="medications" placeholder="List prescribed medications"></textarea>
+
+        <label>Allergies</label>
+        <textarea name="allergies" placeholder="List any known allergies"></textarea>
+
+        <label>Procedures</label>
+        <textarea name="procedures" placeholder="List any procedures performed"></textarea>
+
+        <button type="submit">Save Record</button>
+      </form>
+
+      <a href="/patient/{{ patient_id }}" class="back">← Back to Patient Profile</a>
+    </div>
+  </div>
+
+</body>
+</html>

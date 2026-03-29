@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Profile</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+    .container { padding: 32px; max-width: 800px; margin: 0 auto; }
+
+    .profile-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .profile-card h2 { color: #2e7d32; margin-bottom: 16px; font-size: 18px; }
+
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .field span { font-size: 12px; color: #999; display: block; }
+    .field p { font-size: 15px; color: #333; margin-top: 2px; }
+
+    .section-title {
+      color: #2e7d32;
+      font-size: 17px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .add-btn {
+      background-color: #2e7d32;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .add-btn:hover { background-color: #1b5e20; }
+
+    .record-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+    }
+
+    .record-date { font-size: 12px; color: #999; margin-bottom: 12px; }
+
+    .record-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .record-field span { font-size: 12px; color: #999; }
+    .record-field p { font-size: 14px; color: #333; margin-top: 2px; }
+
+    .no-records { color: #999; font-size: 14px; text-align: center; padding: 24px; background: white; border-radius: 12px; }
+
+    .back { display: inline-block; margin-top: 16px; font-size: 13px; color: #2e7d32; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <div class="profile-card">
+      <h2>👤 Patient Profile</h2>
+      <div class="fields">
+        <div class="field">
+          <span>Full Name</span>
+          <p>{{ patient.name }}</p>
+        </div>
+        <div class="field">
+          <span>National ID</span>
+          <p>{{ patient.national_id }}</p>
+        </div>
+        <div class="field">
+          <span>Date of Birth</span>
+          <p>{{ patient.date_of_birth }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>📋 Medical Records</span>
+      {% if role == "doctor" %}
+      <a href="/add-record/{{ patient.patient_id }}" class="add-btn">+ Add Record</a>
+      {% endif %}
+    </div>
+
+    {% if records %}
+      {% for record in records %}
+      <div class="record-card">
+        <div class="record-date">Visit Date: {{ record.visit_date[:10] }}</div>
+        <div class="record-fields">
+          <div class="record-field">
+            <span>Diagnosis</span>
+            <p>{{ record.diagnosis or "N/A" }}</p>
+          </div>
+          <div class="record-field">
+            <span>Medications</span>
+            <p>{{ record.medications or "N/A" }}</p>
+          </div>
+          <div class="record-field">
+            <span>Allergies</span>
+            <p>{{ record.allergies or "N/A" }}</p>
+          </div>
+          <div class="record-field">
+            <span>Procedures</span>
+            <p>{{ record.procedures or "N/A" }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-records">No medical records found for this patient</div>
+    {% endif %}
+
+    <a href="/search-patient" class="back">← Back to Search</a>
+  </div>
+
+</body>
+</html>

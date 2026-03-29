@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+    .container { padding: 32px; max-width: 900px; margin: 0 auto; }
+
+    h2 { color: #2e7d32; margin-bottom: 24px; font-size: 20px; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .card h3 { color: #2e7d32; margin-bottom: 16px; font-size: 16px; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    input, select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: #2e7d32; }
+
+    button {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #1b5e20; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f7f0; color: #2e7d32; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .doctor { background: #e8f5e9; color: #2e7d32; }
+    .nurse { background: #e3f2fd; color: #1565c0; }
+    .admin { background: #fff3e0; color: #e65100; }
+
+    .deactivate {
+      color: #c62828;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .deactivate:hover { text-decoration: underline; }
+
+    .back { display: inline-block; margin-top: 8px; font-size: 13px; color: #2e7d32; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <h2>⚙️ Admin Panel</h2>
+
+    <div class="card">
+      <h3>Create Healthcare Worker Account</h3>
+      <form method="POST" action="/admin/create-worker">
+        <div class="form-grid">
+          <div>
+            <input type="text" name="username" placeholder="Username" required>
+          </div>
+          <div>
+            <input type="password" name="password" placeholder="Password" required>
+          </div>
+          <div>
+            <select name="role" required>
+              <option value="">Select Role</option>
+              <option value="doctor">Doctor</option>
+              <option value="nurse">Nurse</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div>
+            <select name="hospital_id" required>
+              <option value="">Select Hospital</option>
+              {% for hospital in hospitals %}
+              <option value="{{ hospital.hospital_id }}">{{ hospital.hospital_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Healthcare Workers</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for worker in workers %}
+          <tr>
+            <td>{{ worker.username }}</td>
+            <td><span class="badge {{ worker.role }}">{{ worker.role }}</span></td>
+            <td>
+              {% if worker.worker_id != session.worker_id %}
+              <a href="/admin/deactivate/{{ worker.worker_id }}" class="deactivate"
+                 onclick="return confirm('Deactivate this account?')">Deactivate</a>
+              {% else %}
+              —
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <a href="/dashboard" class="back">← Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

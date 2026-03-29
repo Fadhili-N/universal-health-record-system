@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UHRS Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+    .navbar a:hover { text-decoration: underline; }
+
+    .container { padding: 40px 32px; }
+
+    .welcome {
+      margin-bottom: 32px;
+    }
+    .welcome h2 { color: #2e7d32; font-size: 22px; }
+    .welcome p { color: #666; font-size: 14px; margin-top: 4px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card .icon { font-size: 32px; margin-bottom: 12px; }
+    .card h3 { font-size: 15px; color: #2e7d32; }
+    .card p { font-size: 12px; color: #999; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <div>
+      <span style="color:white; font-size:14px; margin-right:16px;">{{ username }} ({{ role }})</span>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="welcome">
+      <h2>Welcome, {{ username }}</h2>
+      <p>What would you like to do today?</p>
+    </div>
+
+    <div class="cards">
+      <a href="/register-patient" class="card">
+        <div class="icon">👤</div>
+        <h3>Register Patient</h3>
+        <p>Add a new patient to the system</p>
+      </a>
+      <a href="/search-patient" class="card">
+        <div class="icon">🔍</div>
+        <h3>Search Patient</h3>
+        <p>Find a patient by national ID</p>
+      </a>
+      {% if role == "admin" %}
+      <a href="/admin" class="card">
+        <div class="icon">⚙️</div>
+        <h3>Admin Panel</h3>
+        <p>Manage healthcare workers</p>
+      </a>
+      {% endif %}
+      <a href="/audit-log" class="card">
+        <div class="icon">📋</div>
+        <h3>Audit Log</h3>
+        <p>View system access history</p>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

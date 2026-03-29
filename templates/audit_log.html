@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audit Log</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+    .container { padding: 32px; max-width: 900px; margin: 0 auto; }
+
+    h2 { color: #2e7d32; margin-bottom: 24px; font-size: 20px; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f7f0; color: #2e7d32; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+    tr:last-child td { border-bottom: none; }
+
+    .no-logs { text-align: center; color: #999; padding: 24px; }
+
+    .back { display: inline-block; margin-top: 16px; font-size: 13px; color: #2e7d32; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <h2>📋 Audit Log</h2>
+
+    <div class="card">
+      {% if logs %}
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+          <tr>
+            <td>{{ log.healthcare_worker.username if log.healthcare_worker else "Unknown" }}</td>
+            <td>{{ log.action }}</td>
+            <td>{{ log.timestamp[:19].replace("T", " ") }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="no-logs">No audit logs found</div>
+      {% endif %}
+    </div>
+
+    <a href="/dashboard" class="back">← Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

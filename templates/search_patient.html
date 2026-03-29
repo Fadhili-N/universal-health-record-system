@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Patient</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f0f7f0; }
+
+    .navbar {
+      background-color: #2e7d32;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h1 { color: white; font-size: 20px; }
+    .navbar a { color: white; text-decoration: none; font-size: 14px; }
+
+    .container { display: flex; flex-direction: column; align-items: center; padding: 40px 16px; }
+
+    .card {
+      background: white;
+      padding: 36px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 24px;
+    }
+
+    h2 { color: #2e7d32; margin-bottom: 24px; font-size: 20px; }
+
+    label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; }
+
+    input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    input:focus { border-color: #2e7d32; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #1b5e20; }
+
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .result {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .result h3 { color: #2e7d32; margin-bottom: 16px; }
+
+    .field { margin-bottom: 12px; font-size: 14px; }
+    .field span { color: #999; display: block; font-size: 12px; }
+
+    .btn-view {
+      display: block;
+      margin-top: 16px;
+      padding: 10px;
+      background-color: #2e7d32;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .btn-view:hover { background-color: #1b5e20; }
+
+    .back { display: block; text-align: center; margin-top: 16px; font-size: 13px; color: #2e7d32; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🏥 UHRS</h1>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>🔍 Search Patient</h2>
+
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <label>National ID Number</label>
+        <input type="text" name="national_id" placeholder="e.g. 1199880012345678" required>
+        <button type="submit">Search</button>
+      </form>
+
+      <a href="/dashboard" class="back">← Back to Dashboard</a>
+    </div>
+
+    {% if patient %}
+    <div class="result">
+      <h3>Patient Found</h3>
+      <div class="field">
+        <span>Full Name</span>
+        {{ patient.name }}
+      </div>
+      <div class="field">
+        <span>National ID</span>
+        {{ patient.national_id }}
+      </div>
+      <div class="field">
+        <span>Date of Birth</span>
+        {{ patient.date_of_birth }}
+      </div>
+      <a href="/patient/{{ patient.patient_id }}" class="btn-view">View Full Medical Record</a>
+    </div>
+    {% endif %}
+
+  </div>
+
+</body>
+</html>

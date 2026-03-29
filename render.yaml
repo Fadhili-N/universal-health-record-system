@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: universal-health-record-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+```
+
+And your `requirements.txt` should be exactly this:
+```
+flask
+supabase
+python-dotenv
+gunicorn

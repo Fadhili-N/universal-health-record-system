@@ -2,106 +2,336 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Patient Profile</title>
+  <title>Patient Profile — UHRS</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #f0f7f0; }
 
-    .navbar {
-      background-color: #2e7d32;
-      padding: 16px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
     }
-    .navbar h1 { color: white; font-size: 20px; }
-    .navbar a { color: white; text-decoration: none; font-size: 14px; }
 
-    .container { padding: 32px; max-width: 800px; margin: 0 auto; }
+    /* NAVBAR */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-    .profile-card {
-      background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1b5e20;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span { color: #43a047; }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: #f0f7f0;
+      color: #2e7d32;
+    }
+
+    .logout-btn {
+      text-decoration: none;
+      font-size: 13px;
+      color: #666;
+      padding: 6px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .logout-btn:hover {
+      background: #fff0f0;
+      color: #c62828;
+      border-color: #ffcdd2;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      font-size: 13px;
+      color: #aaa;
       margin-bottom: 24px;
     }
 
-    .profile-card h2 { color: #2e7d32; margin-bottom: 16px; font-size: 18px; }
-
-    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-    .field span { font-size: 12px; color: #999; display: block; }
-    .field p { font-size: 15px; color: #333; margin-top: 2px; }
-
-    .section-title {
+    .breadcrumb a {
       color: #2e7d32;
-      font-size: 17px;
-      margin-bottom: 16px;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* PATIENT CARD */
+    .patient-card {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-left: 4px solid #2e7d32;
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
       display: flex;
-      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .patient-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .patient-details {
+      flex: 1;
+    }
+
+    .patient-details h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .field span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #aaa;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .field p {
+      font-size: 15px;
+      color: #1a1a1a;
+    }
+
+    /* RECORDS SECTION */
+    .records-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .records-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .records-header .count {
+      font-size: 13px;
+      color: #888;
+      margin-left: 8px;
+      font-weight: 400;
     }
 
     .add-btn {
-      background-color: #2e7d32;
+      background: #2e7d32;
       color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 8px 18px;
+      border-radius: 7px;
       text-decoration: none;
       font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
     }
-    .add-btn:hover { background-color: #1b5e20; }
 
+    .add-btn:hover { background: #1b5e20; }
+
+    /* RECORD CARD */
     .record-card {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      transition: box-shadow 0.15s;
     }
 
-    .record-date { font-size: 12px; color: #999; margin-bottom: 12px; }
+    .record-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
 
-    .record-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .record-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
 
-    .record-field span { font-size: 12px; color: #999; }
-    .record-field p { font-size: 14px; color: #333; margin-top: 2px; }
+    .record-header .visit-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #aaa;
+    }
 
-    .no-records { color: #999; font-size: 14px; text-align: center; padding: 24px; background: white; border-radius: 12px; }
+    .record-header .visit-date {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-top: 2px;
+    }
 
-    .back { display: inline-block; margin-top: 16px; font-size: 13px; color: #2e7d32; text-decoration: none; }
-    .back:hover { text-decoration: underline; }
+    .record-badge {
+      font-size: 11px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .record-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .record-field span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #aaa;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .record-field p {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* EMPTY STATE */
+    .no-records {
+      background: white;
+      border: 1px dashed #d0d0d0;
+      border-radius: 10px;
+      padding: 48px 24px;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .no-records p { margin-top: 8px; font-size: 13px; }
+
+    /* BACK LINK */
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    .back-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <div class="navbar">
-    <h1>🏥 UHRS</h1>
-    <a href="/logout">Logout</a>
-  </div>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="brand">UHR<span>S</span></div>
+      <div class="nav-links">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/search-patient">Patients</a>
+        {% if role == "admin" %}<a href="/admin">Admin</a>{% endif %}
+        <a href="/audit-log">Audit Log</a>
+      </div>
+    </div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </nav>
 
-  <div class="container">
-    <div class="profile-card">
-      <h2>👤 Patient Profile</h2>
-      <div class="fields">
-        <div class="field">
-          <span>Full Name</span>
-          <p>{{ patient.name }}</p>
-        </div>
-        <div class="field">
-          <span>National ID</span>
-          <p>{{ patient.national_id }}</p>
-        </div>
-        <div class="field">
-          <span>Date of Birth</span>
-          <p>{{ patient.date_of_birth }}</p>
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="/dashboard">Dashboard</a> &rsaquo;
+      <a href="/search-patient">Search</a> &rsaquo;
+      Patient Profile
+    </div>
+
+    <!-- PATIENT INFO -->
+    <div class="patient-card">
+      <div class="patient-avatar">{{ patient.name[0] | upper }}</div>
+      <div class="patient-details">
+        <h2>{{ patient.name }}</h2>
+        <div class="fields">
+          <div class="field">
+            <span>National ID</span>
+            <p>{{ patient.national_id }}</p>
+          </div>
+          <div class="field">
+            <span>Date of Birth</span>
+            <p>{{ patient.date_of_birth }}</p>
+          </div>
+          <div class="field">
+            <span>Records</span>
+            <p>{{ records | length }} visit{{ 's' if records | length != 1 else '' }}</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">
-      <span>📋 Medical Records</span>
+    <!-- MEDICAL RECORDS -->
+    <div class="records-header">
+      <h3>Medical Records <span class="count">{{ records | length }} total</span></h3>
       {% if role == "doctor" %}
       <a href="/add-record/{{ patient.patient_id }}" class="add-btn">+ Add Record</a>
       {% endif %}
@@ -110,7 +340,13 @@
     {% if records %}
       {% for record in records %}
       <div class="record-card">
-        <div class="record-date">Visit Date: {{ record.visit_date[:10] }}</div>
+        <div class="record-header">
+          <div>
+            <div class="visit-label">Visit Date</div>
+            <div class="visit-date">{{ record.visit_date[:10] }}</div>
+          </div>
+          <span class="record-badge">Visit {{ loop.index }}</span>
+        </div>
         <div class="record-fields">
           <div class="record-field">
             <span>Diagnosis</span>
@@ -132,10 +368,16 @@
       </div>
       {% endfor %}
     {% else %}
-      <div class="no-records">No medical records found for this patient</div>
+      <div class="no-records">
+        No medical records found for this patient.
+        {% if role == "doctor" %}
+        <p>Use the "Add Record" button to log the first visit.</p>
+        {% endif %}
+      </div>
     {% endif %}
 
-    <a href="/search-patient" class="back">← Back to Search</a>
+    <a href="/search-patient" class="back-link">← Back to Search</a>
+
   </div>
 
 </body>

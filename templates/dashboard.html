@@ -5,89 +5,310 @@
   <title>UHRS Dashboard</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #f0f7f0; }
 
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+    }
+
+    /* NAVBAR */
     .navbar {
-      background-color: #2e7d32;
-      padding: 16px 32px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 40px;
+      height: 60px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .navbar h1 { color: white; font-size: 20px; }
-    .navbar a { color: white; text-decoration: none; font-size: 14px; }
-    .navbar a:hover { text-decoration: underline; }
 
-    .container { padding: 40px 32px; }
-
-    .welcome {
-      margin-bottom: 32px;
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 40px;
     }
-    .welcome h2 { color: #2e7d32; font-size: 22px; }
-    .welcome p { color: #666; font-size: 14px; margin-top: 4px; }
 
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1b5e20;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span { color: #43a047; }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: #f0f7f0;
+      color: #2e7d32;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .user-info .name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .user-info .role-tag {
+      font-size: 11px;
+      color: #888;
+      text-transform: capitalize;
+    }
+
+    .logout-btn {
+      text-decoration: none;
+      font-size: 13px;
+      color: #666;
+      padding: 6px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .logout-btn:hover {
+      background: #fff0f0;
+      color: #c62828;
+      border-color: #ffcdd2;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    /* HEADER */
+    .page-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .page-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: #777;
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      margin-bottom: 16px;
+    }
+
+    /* CARDS */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
     }
 
     .card {
       background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      text-align: center;
+      border: 1px solid #e8e8e8;
+      border-left: 4px solid #2e7d32;
+      border-radius: 10px;
+      padding: 24px 20px;
       text-decoration: none;
-      color: #333;
-      transition: transform 0.2s;
+      color: inherit;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: box-shadow 0.2s, transform 0.2s;
     }
-    .card:hover { transform: translateY(-4px); }
-    .card .icon { font-size: 32px; margin-bottom: 12px; }
-    .card h3 { font-size: 15px; color: #2e7d32; }
-    .card p { font-size: 12px; color: #999; margin-top: 6px; }
+
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #2e7d32;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-text h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .card-text p {
+      font-size: 13px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #bbb;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-  <div class="navbar">
-    <h1>🏥 UHRS</h1>
-    <div>
-      <span style="color:white; font-size:14px; margin-right:16px;">{{ username }} ({{ role }})</span>
-      <a href="/logout">Logout</a>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="brand">UHR<span>S</span></div>
+      <div class="nav-links">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/search-patient">Patients</a>
+        {% if role == "admin" %}<a href="/admin">Admin</a>{% endif %}
+        <a href="/audit-log">Audit Log</a>
+      </div>
     </div>
-  </div>
+    <div class="navbar-right">
+      <div class="user-badge">
+        <div class="avatar">{{ username[0] | upper }}</div>
+        <div class="user-info">
+          <span class="name">{{ username }}</span>
+          <span class="role-tag">{{ role }}</span>
+        </div>
+      </div>
+      <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+  </nav>
 
-  <div class="container">
-    <div class="welcome">
-      <h2>Welcome, {{ username }}</h2>
-      <p>What would you like to do today?</p>
+  <div class="page">
+
+    <div class="page-header">
+      <h2>Welcome back, {{ username }}</h2>
+      <p>{{ "Monday" }}, 30 March 2026 &nbsp;·&nbsp; Logged in as <strong>{{ role }}</strong></p>
     </div>
 
+    <div class="section-label">Quick Actions</div>
     <div class="cards">
+
       <a href="/register-patient" class="card">
-        <div class="icon">👤</div>
-        <h3>Register Patient</h3>
-        <p>Add a new patient to the system</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <div class="card-text">
+          <h3>Register Patient</h3>
+          <p>Add a new patient to the system</p>
+        </div>
       </a>
+
       <a href="/search-patient" class="card">
-        <div class="icon">🔍</div>
-        <h3>Search Patient</h3>
-        <p>Find a patient by national ID</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="card-text">
+          <h3>Search Patient</h3>
+          <p>Find a patient by national ID</p>
+        </div>
       </a>
+
       {% if role == "admin" %}
       <a href="/admin" class="card">
-        <div class="icon">⚙️</div>
-        <h3>Admin Panel</h3>
-        <p>Manage healthcare workers</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="card-text">
+          <h3>Admin Panel</h3>
+          <p>Manage healthcare workers</p>
+        </div>
       </a>
       {% endif %}
+
       <a href="/audit-log" class="card">
-        <div class="icon">📋</div>
-        <h3>Audit Log</h3>
-        <p>View system access history</p>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="card-text">
+          <h3>Audit Log</h3>
+          <p>View system access history</p>
+        </div>
       </a>
+
     </div>
+
+    <div class="page-footer">
+      UHRS — Unified Health Records System &nbsp;·&nbsp; Authorized personnel only. All access is logged.
+    </div>
+
   </div>
 
 </body>
